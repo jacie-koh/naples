@@ -1,0 +1,1715 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Naples</title>
+    <style>
+      :root {
+        --pink: #ffc6ca;
+        --rose: #ff8da0;
+        --blush: #ffe5e7;
+        --cream: #f0eee2;
+        --olive: #859e91;
+        --sage: #c3d0a8;
+        --moss: #99ac73;
+        --peach: #ffdba5;
+        --ink: #292521;
+        --muted: #746c63;
+        --line: rgba(41, 37, 33, 0.09);
+        --white: #fffdf8;
+        font-family: "Avenir Next", "Nunito", "Trebuchet MS", Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: var(--white);
+        color: var(--ink);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        border: 0;
+        cursor: pointer;
+      }
+
+      button:focus {
+        outline: none;
+      }
+
+      button:focus-visible {
+        outline: 2px solid rgba(133, 158, 145, 0.48);
+        outline-offset: 2px;
+      }
+
+      .phone {
+        width: min(390px, 100vw);
+        height: min(760px, 100vh);
+        position: relative;
+        overflow: hidden;
+        background: var(--cream);
+        box-shadow: 0 24px 70px rgba(87, 71, 61, 0.16);
+      }
+
+      .topbar {
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+        background: linear-gradient(90deg, #ff738b, var(--peach));
+        color: var(--white);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--white);
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .brand img {
+        width: 34px;
+        height: 34px;
+        object-fit: contain;
+      }
+
+      .icon-button {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.24);
+        color: currentColor;
+      }
+
+      .icon {
+        width: 21px;
+        height: 21px;
+        display: block;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+
+      .screen {
+        display: none;
+        height: calc(100% - 130px);
+        overflow: auto;
+        padding: 20px 18px 24px;
+      }
+
+      .screen.active {
+        display: block;
+      }
+
+      .page-title {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .page-title h1 {
+        font-size: 26px;
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .eyebrow {
+        color: var(--olive);
+        font-size: 12px;
+        font-weight: 800;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
+
+      .subtle {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .card {
+        border-radius: 8px;
+        background: var(--white);
+        border: 1px solid var(--line);
+        padding: 16px;
+        box-shadow: 0 10px 28px rgba(99, 83, 70, 0.07);
+      }
+
+      .home-hero {
+        display: grid;
+        gap: 15px;
+        padding: 18px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--sage), var(--cream));
+        color: var(--white);
+      }
+
+      .home-hero h1 {
+        font-size: 34px;
+        line-height: 1;
+      }
+
+      .home-hero .subtle {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 700;
+      }
+
+      .week {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 7px;
+      }
+
+      .day {
+        min-height: 54px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        gap: 2px;
+        background: rgba(255, 255, 255, 0.28);
+        color: var(--white);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .day span {
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .day.screening {
+        background: var(--peach);
+        color: var(--olive);
+        box-shadow: inset 0 0 0 2px var(--white);
+      }
+
+      .section-stack {
+        display: grid;
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .screening-card {
+        display: grid;
+        gap: 14px;
+        background: var(--blush);
+      }
+
+      .screening-line {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .badge-icon {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        color: var(--white);
+        background: linear-gradient(135deg, var(--rose), var(--peach));
+      }
+
+      .action-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .pill-button,
+      .soft-button {
+        min-height: 44px;
+        border-radius: 999px;
+        padding: 0 15px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .pill-button {
+        background: var(--rose);
+        color: var(--white);
+      }
+
+      .soft-button {
+        background: rgba(133, 158, 145, 0.14);
+        color: var(--olive);
+      }
+
+      .insight-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .insight-grid.daily {
+        grid-template-columns: 1fr;
+      }
+
+      .info-section {
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--moss), var(--sage));
+        color: var(--white);
+      }
+
+      .info-head {
+        display: flex;
+        align-items: end;
+        justify-content: flex-start;
+        gap: 12px;
+      }
+
+      .info-head h3 {
+        font-size: 17px;
+      }
+
+      .info-head span {
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .mini-card {
+        min-height: 120px;
+        display: grid;
+        align-content: space-between;
+        border-radius: 8px;
+        padding: 14px;
+        color: var(--white);
+        background: linear-gradient(135deg, #ff8a9b, var(--peach));
+      }
+
+      .mini-card.sage {
+        background: linear-gradient(135deg, var(--olive), var(--sage));
+      }
+
+      .mini-card.article {
+        min-height: auto;
+        text-align: left;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: none;
+      }
+
+      .mini-card.article p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 12px;
+        line-height: 1.35;
+        margin-top: 7px;
+      }
+
+      .mini-card h3,
+      .card h3 {
+        font-size: 16px;
+        line-height: 1.15;
+      }
+
+      .stats-summary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .metric {
+        min-height: 78px;
+        display: grid;
+        align-content: space-between;
+      }
+
+      .metric strong {
+        font-size: 28px;
+        color: var(--olive);
+      }
+
+      .category-list {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 2px 0 4px;
+        scrollbar-width: none;
+        margin-top: 13px;
+      }
+
+      .category-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .category-row {
+        min-width: 138px;
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        border-radius: 8px;
+        background: rgba(255, 229, 231, 0.72);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 700;
+        text-align: left;
+      }
+
+      .category-row strong {
+        grid-column: 2;
+        font-size: 11px;
+        color: inherit;
+        opacity: 0.76;
+      }
+
+      .category-row.active {
+        background: linear-gradient(135deg, var(--rose), var(--peach));
+        color: var(--white);
+      }
+
+      .category-row.active .dot {
+        background: rgba(255, 255, 255, 0.28);
+        color: var(--white);
+      }
+
+      .count-pill {
+        min-width: 48px;
+        min-height: 26px;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.56);
+        color: var(--olive);
+        font-size: 12px;
+      }
+
+      .dot {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--pink);
+        color: var(--rose);
+      }
+
+      .category-row .dot {
+        width: 28px;
+        height: 28px;
+        grid-row: span 2;
+      }
+
+      .issue-picker {
+        display: grid;
+        gap: 14px;
+        max-height: 220px;
+        overflow: auto;
+        padding-right: 2px;
+        margin-top: 13px;
+      }
+
+      .issue-group {
+        display: grid;
+        gap: 7px;
+      }
+
+      .issue-group-title {
+        color: var(--olive);
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .issue-option {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 9px;
+        align-items: start;
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        background: rgba(255, 229, 231, 0.72);
+        color: var(--ink);
+        text-align: left;
+      }
+
+      .issue-option.active {
+        background: linear-gradient(135deg, var(--rose), var(--peach));
+        color: var(--white);
+      }
+
+      .issue-option.active .dot {
+        background: rgba(255, 255, 255, 0.28);
+        color: var(--white);
+      }
+
+      .issue-option .dot {
+        display: none;
+        width: 26px;
+        height: 26px;
+        font-size: 11px;
+      }
+
+      .issue-option strong {
+        display: block;
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      .issue-option small {
+        display: none;
+        margin-top: 3px;
+        font-size: 10px;
+        font-weight: 800;
+        opacity: 0.68;
+      }
+
+      .trend-card {
+        display: grid;
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .comparison-card {
+        display: grid;
+        gap: 14px;
+        margin-top: 14px;
+        background: var(--blush);
+      }
+
+      .comparison-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .comparison-tile {
+        min-height: 82px;
+        display: grid;
+        align-content: space-between;
+        border-radius: 8px;
+        padding: 12px;
+        background: var(--white);
+      }
+
+      .comparison-tile strong {
+        color: var(--olive);
+        font-size: 26px;
+      }
+
+      .comparison-note {
+        padding: 11px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.58);
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+        font-weight: 700;
+      }
+
+      .trend-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .month-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .month-row {
+        display: grid;
+        grid-template-columns: 44px 1fr 34px;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .month-name {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .month-track {
+        height: 12px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: var(--cream);
+      }
+
+      .month-fill {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--rose), var(--peach));
+        display: block;
+      }
+
+      .month-count {
+        color: var(--olive);
+        font-size: 12px;
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .issue-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .issue-chip {
+        display: grid;
+        grid-template-columns: 22px 1fr auto;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px;
+        border-radius: 8px;
+        background: var(--blush);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .issue-chip small {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .contact-card {
+        display: grid;
+        gap: 14px;
+      }
+
+      .slot-list {
+        display: grid;
+        gap: 9px;
+      }
+
+      .week-switch {
+        display: grid;
+        grid-template-columns: 42px 1fr 42px;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border-radius: 8px;
+        background: var(--cream);
+      }
+
+      .week-toggle {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--blush);
+        color: var(--olive);
+        font-weight: 900;
+      }
+
+      .week-label {
+        text-align: center;
+      }
+
+      .week-label strong {
+        display: block;
+        font-size: 13px;
+      }
+
+      .slot {
+        display: grid;
+        grid-template-columns: 46px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 11px;
+        border-radius: 8px;
+        background: var(--blush);
+      }
+
+      .next-appointment {
+        display: none;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 8px;
+        background: rgba(195, 208, 168, 0.38);
+      }
+
+      .next-appointment.show {
+        display: grid;
+      }
+
+      .appointment-alert {
+        display: none;
+        padding: 11px 12px;
+        border-radius: 8px;
+        background: var(--blush);
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .appointment-alert.show {
+        display: block;
+      }
+
+      .small-link {
+        color: var(--olive);
+        font-weight: 900;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .slot-date {
+        height: 46px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        color: var(--olive);
+        background: var(--peach);
+        font-weight: 800;
+      }
+
+      .resource {
+        display: grid;
+        gap: 10px;
+        background: var(--sage);
+        color: var(--white);
+      }
+
+      .resource .subtle {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .resource .soft-button {
+        background: rgba(255, 255, 255, 0.22);
+        color: var(--white);
+      }
+
+      .questionnaire {
+        padding-bottom: 86px;
+      }
+
+      .question-card {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .choice-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .choice {
+        min-height: 38px;
+        border-radius: 999px;
+        background: var(--cream);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .choice.active {
+        background: var(--moss);
+        color: var(--white);
+      }
+
+      .tabbar {
+        position: absolute;
+        inset: auto 0 0;
+        height: 72px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        align-items: center;
+        padding: 8px 18px 12px;
+        background: linear-gradient(90deg, #ff738b, var(--peach));
+      }
+
+      .nav {
+        min-height: 52px;
+        display: grid;
+        place-items: center;
+        gap: 2px;
+        border-radius: 8px;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .nav.active {
+        background: rgba(255, 255, 255, 0.22);
+        color: var(--white);
+      }
+
+      .tabbar .nav:focus-visible {
+        outline-color: rgba(255, 255, 255, 0.76);
+      }
+
+      .nav .icon {
+        width: 23px;
+        height: 23px;
+      }
+
+      .modal {
+        display: none;
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        align-items: end;
+        background: rgba(41, 37, 33, 0.32);
+        padding: 18px;
+      }
+
+      .modal.open {
+        display: grid;
+      }
+
+      .modal-card {
+        width: 100%;
+        max-height: 88%;
+        overflow: auto;
+        border-radius: 8px;
+        background: var(--white);
+        padding: 18px;
+        box-shadow: 0 22px 50px rgba(41, 37, 33, 0.2);
+      }
+
+      .modal-card textarea,
+      .modal-card input,
+      .modal-card select {
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--cream);
+        padding: 10px 12px;
+        color: var(--ink);
+      }
+
+      .modal-card textarea {
+        min-height: 118px;
+        resize: none;
+        margin: 14px 0;
+      }
+
+      .field {
+        display: grid;
+        gap: 7px;
+        margin-top: 13px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .check-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 10px;
+        border-radius: 8px;
+        background: var(--cream);
+        border: 1px solid var(--line);
+      }
+
+      .check-option {
+        display: grid;
+        grid-template-columns: 18px 1fr;
+        gap: 8px;
+        align-items: start;
+        color: var(--ink);
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      .check-option input {
+        width: 16px;
+        min-height: 16px;
+        margin: 0;
+        accent-color: var(--moss);
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      @media (max-height: 720px) {
+        .phone {
+          height: 100vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="phone" aria-label="Naples app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="assets/naples-logo-transparent.png" alt="Naples logo" />
+          <span>naples</span>
+        </div>
+        <button class="icon-button" type="button" data-open="settings" aria-label="Settings">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2a2 2 0 0 1-4 0V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1A2 2 0 0 1 4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H2.8a2 2 0 0 1 0-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7A2 2 0 0 1 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6v-.2a2 2 0 0 1 4 0V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1A2 2 0 0 1 19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2a2 2 0 0 1 0 4H21a1.7 1.7 0 0 0-1.6 1Z"></path>
+          </svg>
+        </button>
+      </header>
+
+      <section class="screen active" id="home" aria-label="Home page">
+        <div class="home-hero">
+          <div>
+            <p class="eyebrow">Cycle Day</p>
+            <h1 id="cycle-day">Day --</h1>
+            <p class="subtle" id="screening-reminder">Calculating your screening reminder.</p>
+          </div>
+          <div class="week" id="cycle-week" aria-label="Cycle week"></div>
+        </div>
+
+        <div class="section-stack">
+          <div class="card screening-card" id="self-exam-card">
+            <div class="screening-line">
+              <div class="badge-icon">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 id="home-reminder-title">Monthly Self-Exam</h3>
+                <p class="subtle" id="home-reminder-copy">Your checklist will appear here on screening day.</p>
+              </div>
+            </div>
+            <div class="action-row">
+              <button class="pill-button" type="button" data-page="contact">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z"></path></svg>
+                Telehealth
+              </button>
+              <button class="soft-button" type="button" data-open="chat">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>
+                Chat
+              </button>
+            </div>
+          </div>
+
+          <div class="insight-grid">
+            <button class="mini-card" type="button" data-page="stats" id="concern-status-card">
+              <span class="eyebrow" style="color: rgba(255,255,255,.86)">Insights</span>
+              <h3 id="concern-status-title">Low Concern Pattern This Cycle</h3>
+            </button>
+            <div class="mini-card sage">
+              <span class="eyebrow" style="color: rgba(255,255,255,.86)">Reminder</span>
+              <h3>Check After Your Period Settles</h3>
+            </div>
+          </div>
+          <div class="info-section">
+            <div class="info-head">
+              <div>
+                <span>Info</span>
+                <h3>Today's Breast Health Notes</h3>
+              </div>
+            </div>
+            <div class="insight-grid daily" id="daily-articles"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="stats" aria-label="Stats page">
+        <div class="page-title">
+          <div>
+            <p class="eyebrow">Health Summary</p>
+            <h1>Last Cycle</h1>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Issue History</h3>
+          <p class="subtle">Pick an issue.</p>
+          <div class="issue-picker" id="issue-tabs"></div>
+        </div>
+
+        <div class="card comparison-card">
+          <div class="trend-head">
+            <div>
+              <h3 id="comparison-title">Recent Cycle Vs Trend</h3>
+              <p class="subtle" id="comparison-summary">Most recent check compared with this issue's history.</p>
+            </div>
+          </div>
+          <div class="comparison-grid">
+            <div class="comparison-tile">
+              <p class="subtle">Most Recent Cycle</p>
+              <strong id="comparison-current">0</strong>
+            </div>
+            <div class="comparison-tile">
+              <p class="subtle">All-Time Average</p>
+              <strong id="comparison-average">0</strong>
+            </div>
+          </div>
+          <div class="comparison-note" id="comparison-note">No comparison available yet.</div>
+          <div>
+            <h3 style="margin-bottom: 9px">This Cycle's Logged Issue</h3>
+            <div class="issue-list" id="current-cycle-list"></div>
+          </div>
+        </div>
+
+        <div class="card trend-card">
+          <div class="trend-head">
+            <div>
+              <h3 id="trend-title">Historical All-Time Trend</h3>
+              <p class="subtle" id="trend-summary">Month-by-month history.</p>
+            </div>
+          </div>
+          <div class="month-list" id="month-list"></div>
+          <div>
+            <h3 style="margin-bottom: 9px">Logged Months</h3>
+            <div class="issue-list" id="issue-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="contact" aria-label="Contact page">
+        <div class="page-title">
+          <div>
+            <p class="eyebrow">Care Support</p>
+            <h1>Talk To Someone</h1>
+          </div>
+        </div>
+
+        <div class="card contact-card">
+          <div class="screening-line">
+            <div class="badge-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v3"></path><path d="M17 2v3"></path><path d="M3 9h18"></path><path d="M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"></path></svg>
+            </div>
+            <div>
+              <h3>Teledoctor Appointments</h3>
+              <p class="subtle">Browse available appointments by week.</p>
+            </div>
+          </div>
+          <div class="week-switch">
+            <button class="week-toggle" type="button" data-week-step="-1" aria-label="Previous week">‹</button>
+            <div class="week-label">
+              <strong id="appointment-week">This Week</strong>
+              <span class="subtle" id="appointment-range">May 23-29</span>
+            </div>
+            <button class="week-toggle" type="button" data-week-step="1" aria-label="Next week">›</button>
+          </div>
+          <div class="next-appointment" id="next-appointment">
+            <h3>Next Appointment</h3>
+            <p class="subtle" id="next-appointment-copy"></p>
+          </div>
+          <div class="appointment-alert" id="appointment-alert"></div>
+          <div class="slot-list" id="appointment-slots"></div>
+        </div>
+
+        <div class="card resource" style="margin-top: 14px">
+          <h3>Have Some Concerns?</h3>
+          <p class="subtle"><strong>Consult A Social Worker Today</strong></p>
+          <p class="subtle">Breast Cancer Foundation: +65 6356 0123<br />Singapore Cancer Society: 1800-727-3333</p>
+          <div class="action-row">
+            <button class="pill-button" type="button" data-open="chat">Chat With Us</button>
+            <button class="soft-button" type="button" data-page="questionnaire">Checklist</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen questionnaire" id="questionnaire" aria-label="Questionnaire page">
+        <div class="page-title">
+          <div>
+            <p class="eyebrow">Screening Day</p>
+            <h1>Monthly Examination Questionnaire</h1>
+            <p class="subtle">Unsure how to do a breast examination? Find out <a class="small-link" href="https://bcf.org.sg/resource/downloadable-bse-hanger/" target="_blank" rel="noopener">here</a></p>
+          </div>
+        </div>
+        <div id="questions"></div>
+      </section>
+
+      <nav class="tabbar" aria-label="App navigation">
+        <button class="nav" type="button" data-page="stats" aria-label="Stats">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 3v18h18"></path>
+            <path d="M7 15v2"></path>
+            <path d="M12 10v7"></path>
+            <path d="M17 6v11"></path>
+          </svg>
+          <span>Stats</span>
+        </button>
+        <button class="nav active" type="button" data-page="home" aria-label="Home">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m3 11 9-8 9 8"></path>
+            <path d="M5 10v10h14V10"></path>
+            <path d="M9 20v-6h6v6"></path>
+          </svg>
+          <span>Home</span>
+        </button>
+        <button class="nav" type="button" data-page="contact" aria-label="Contact">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z"></path>
+          </svg>
+          <span>Care</span>
+        </button>
+      </nav>
+
+      <div class="modal" id="chat">
+        <div class="modal-card">
+          <h2>Chat With Us</h2>
+          <p class="subtle">Ask about symptoms, screening days, or whether a teledoctor appointment makes sense.</p>
+          <textarea placeholder="Type your message..."></textarea>
+          <div class="modal-actions">
+            <button class="soft-button" type="button" data-close>Close</button>
+            <button class="pill-button" type="button" data-close>Send</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="settings">
+        <div class="modal-card">
+          <h2>Settings</h2>
+          <label class="field">Last period start<input type="date" value="2026-05-05" /></label>
+          <label class="field">Cycle length<input type="text" value="28 days" /></label>
+          <label class="field">Tracker Plugin<select><option>Flo-Style Period Tracker Connected</option><option>HealthBuddy Connection</option><option>Manual Cycle Tracking</option></select></label>
+          <div class="field">
+            Clinician-Cleared Baselines
+            <div class="check-list" id="baseline-options"></div>
+          </div>
+          <div class="modal-actions">
+            <button class="pill-button" type="button" data-close>Done</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="appointment-confirm">
+        <div class="modal-card">
+          <h2>Confirm Appointment</h2>
+          <p class="subtle" id="appointment-confirm-copy"></p>
+          <div class="modal-actions">
+            <button class="soft-button" type="button" data-close>Cancel</button>
+            <button class="pill-button" type="button" id="confirm-appointment">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const concernGroups = [
+        {
+          id: "breast",
+          label: "Breast / Local Breast Changes",
+          shortLabel: "Breast",
+          questions: [
+            "Lump in the breast, or near (such as underarm area)",
+            "(Sudden) change in size of one breast",
+            "Pain in the breast area",
+            "Unexplained discharge from the breast",
+            "Change in skin texture around the breast",
+            "Dimpling or puckering in the breast",
+            "Skin discolouration/rashes around the breast",
+            "Persistent itching or warmth on one breast",
+          ],
+        },
+        {
+          id: "musculoskeletal",
+          label: "Musculoskeletal / Bone-Related Symptoms",
+          shortLabel: "Bone-related",
+          questions: ["Unexplained, persistent neck or back pain", "Pain in the bones"],
+        },
+        {
+          id: "respiratory",
+          label: "Respiratory Symptoms",
+          shortLabel: "Respiratory",
+          questions: ["Unexplained shortness of breath"],
+        },
+        {
+          id: "neurological",
+          label: "Neurological / Systemic Symptoms",
+          shortLabel: "Neurological",
+          questions: ["Persistent headaches and fatigue", "Vision changes"],
+        },
+        {
+          id: "psychological",
+          label: "Psychological / Emotional Symptoms",
+          shortLabel: "Emotional",
+          questions: ["Poor mood"],
+        },
+      ];
+
+      const monthlyLogs = [
+        {
+          month: "Dec",
+          responses: {
+            breast: ["Pain in the breast area"],
+            musculoskeletal: [],
+            respiratory: [],
+            neurological: ["Persistent headaches and fatigue"],
+            psychological: ["Poor mood"],
+          },
+        },
+        {
+          month: "Jan",
+          responses: {
+            breast: [],
+            musculoskeletal: ["Unexplained, persistent neck or back pain"],
+            respiratory: [],
+            neurological: [],
+            psychological: ["Poor mood"],
+          },
+        },
+        {
+          month: "Feb",
+          responses: {
+            breast: ["Change in skin texture around the breast", "Persistent itching or warmth on one breast"],
+            musculoskeletal: ["Pain in the bones"],
+            respiratory: [],
+            neurological: ["Vision changes"],
+            psychological: [],
+          },
+        },
+        {
+          month: "Mar",
+          responses: {
+            breast: ["Lump in the breast, or near (such as underarm area)", "Unexplained discharge from the breast"],
+            musculoskeletal: [],
+            respiratory: ["Unexplained shortness of breath"],
+            neurological: ["Persistent headaches and fatigue"],
+            psychological: ["Poor mood"],
+          },
+        },
+        {
+          month: "Apr",
+          responses: {
+            breast: [],
+            musculoskeletal: ["Unexplained, persistent neck or back pain"],
+            respiratory: [],
+            neurological: [],
+            psychological: [],
+          },
+        },
+        {
+          month: "May",
+          responses: {
+            breast: ["Pain in the breast area", "(Sudden) change in size of one breast"],
+            musculoskeletal: [],
+            respiratory: [],
+            neurological: [],
+            psychological: [],
+          },
+        },
+      ];
+
+      const questions = concernGroups.flatMap((group) => group.questions);
+      const issueOptions = concernGroups.flatMap((group, groupIndex) =>
+        group.questions.map((question, questionIndex) => ({
+          id: `${group.id}-${questionIndex}`,
+          groupId: group.id,
+          groupLabel: group.shortLabel,
+          number: groupIndex + 1,
+          question,
+        })),
+      );
+      const issueTabs = document.querySelector("#issue-tabs");
+      const monthList = document.querySelector("#month-list");
+      const issueList = document.querySelector("#issue-list");
+      const trendTitle = document.querySelector("#trend-title");
+      const trendSummary = document.querySelector("#trend-summary");
+      const comparisonTitle = document.querySelector("#comparison-title");
+      const comparisonSummary = document.querySelector("#comparison-summary");
+      const comparisonCurrent = document.querySelector("#comparison-current");
+      const comparisonAverage = document.querySelector("#comparison-average");
+      const comparisonNote = document.querySelector("#comparison-note");
+      const currentCycleList = document.querySelector("#current-cycle-list");
+      const baselineOptions = document.querySelector("#baseline-options");
+      const cycleDay = document.querySelector("#cycle-day");
+      const cycleWeek = document.querySelector("#cycle-week");
+      const screeningReminder = document.querySelector("#screening-reminder");
+      const homeReminderTitle = document.querySelector("#home-reminder-title");
+      const homeReminderCopy = document.querySelector("#home-reminder-copy");
+      const concernStatusTitle = document.querySelector("#concern-status-title");
+      const dailyArticles = document.querySelector("#daily-articles");
+      const selfExamCard = document.querySelector("#self-exam-card");
+      const appointmentWeek = document.querySelector("#appointment-week");
+      const appointmentRange = document.querySelector("#appointment-range");
+      const appointmentSlots = document.querySelector("#appointment-slots");
+      const nextAppointment = document.querySelector("#next-appointment");
+      const nextAppointmentCopy = document.querySelector("#next-appointment-copy");
+      const appointmentAlert = document.querySelector("#appointment-alert");
+      const appointmentConfirm = document.querySelector("#appointment-confirm");
+      const appointmentConfirmCopy = document.querySelector("#appointment-confirm-copy");
+      const confirmAppointment = document.querySelector("#confirm-appointment");
+      const appointmentWeeks = [
+        {
+          label: "This Week",
+          range: "May 23-29",
+          slots: [
+            { date: "23", displayDate: "May 23", day: "Today", time: "2:00 PM" },
+            { date: "24", displayDate: "May 24", day: "Sunday", time: "10:30 AM" },
+            { date: "26", displayDate: "May 26", day: "Tuesday", time: "2:00 PM" },
+          ],
+        },
+        {
+          label: "Next Week",
+          range: "May 30-Jun 5",
+          slots: [
+            { date: "30", displayDate: "May 30", day: "Saturday", time: "9:30 AM" },
+            { date: "02", displayDate: "Jun 2", day: "Tuesday", time: "11:00 AM" },
+            { date: "04", displayDate: "Jun 4", day: "Thursday", time: "3:00 PM" },
+          ],
+        },
+        {
+          label: "Following Week",
+          range: "Jun 6-12",
+          slots: [
+            { date: "08", displayDate: "Jun 8", day: "Monday", time: "10:00 AM" },
+            { date: "10", displayDate: "Jun 10", day: "Wednesday", time: "1:30 PM" },
+            { date: "12", displayDate: "Jun 12", day: "Friday", time: "5:00 PM" },
+          ],
+        },
+      ];
+      let activeAppointmentWeek = 0;
+      let pendingAppointment = null;
+      let bookedAppointment = null;
+      const lastPeriodStart = new Date("2026-05-05T00:00:00");
+      const today = new Date();
+      const screeningCycleDay = 29;
+      const approvedArticles = [
+        {
+          id: "bcf-bse",
+          title: "Breast Self-Examination Guide",
+          source: "Breast Cancer Foundation",
+          url: "https://bcf.org.sg/resource/downloadable-bse-hanger/",
+          tags: ["self-exam", "breast"],
+        },
+        {
+          id: "scs-symptoms",
+          title: "Breast Cancer Signs And Symptoms",
+          source: "Singapore Cancer Society",
+          url: "https://www.singaporecancersociety.org.sg/",
+          tags: ["symptoms", "breast"],
+        },
+        {
+          id: "cdc-changes",
+          title: "Breast Changes To Check With A Doctor",
+          source: "CDC",
+          url: "https://www.cdc.gov/breast-cancer/",
+          tags: ["symptoms", "breast"],
+        },
+        {
+          id: "nci-screening",
+          title: "Breast Cancer Screening Basics",
+          source: "National Cancer Institute",
+          url: "https://www.cancer.gov/types/breast/screening",
+          tags: ["screening", "awareness"],
+        },
+        {
+          id: "mayo-pain",
+          title: "Understanding Breast Pain",
+          source: "Mayo Clinic",
+          url: "https://www.mayoclinic.org/",
+          tags: ["pain", "awareness"],
+        },
+      ];
+
+      function countIssueInMonth(month, issue) {
+        return month.responses[issue.groupId].filter((loggedIssue) => loggedIssue === issue.question).length;
+      }
+
+      function toTitleCase(text) {
+        return text.replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.slice(1));
+      }
+
+      function daysBetween(start, end) {
+        const startDate = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+        const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+        return Math.round((endDate - startDate) / 86400000);
+      }
+
+      function getCycleInfo() {
+        const day = (daysBetween(lastPeriodStart, today) % 28) + 1;
+        const daysUntilScreening = day <= screeningCycleDay ? screeningCycleDay - day : 28 - day + screeningCycleDay;
+        return { day, daysUntilScreening };
+      }
+
+      function currentConcernStatus() {
+        const latestMonth = monthlyLogs[monthlyLogs.length - 1];
+        const latestIssues = Object.values(latestMonth.responses).flat();
+        if (!latestIssues.length) return { title: "Low Concern Pattern This Cycle", tags: ["awareness", "screening"] };
+        if (latestIssues.some((issue) => issue.toLowerCase().includes("pain"))) return { title: "Breast Pain Logged This Cycle", tags: ["pain", "breast"] };
+        return { title: `${toTitleCase(latestIssues[0])} Logged This Cycle`, tags: ["symptoms", "breast"] };
+      }
+
+      function renderCycleHome() {
+        const { day, daysUntilScreening } = getCycleInfo();
+        const weekStart = new Date(today);
+        weekStart.setDate(today.getDate() - today.getDay() + 1);
+        cycleDay.textContent = `Day ${day}`;
+        screeningReminder.textContent =
+          daysUntilScreening === 0 ? "Today is your screening reminder." : `Your next screening reminder is in ${daysUntilScreening} days.`;
+        cycleWeek.innerHTML = Array.from({ length: 7 }, (_, index) => {
+          const date = new Date(weekStart);
+          date.setDate(weekStart.getDate() + index);
+          const label = date.toLocaleDateString("en-US", { weekday: "short" }).charAt(0);
+          const dateNumber = date.getDate();
+          const isToday = date.toDateString() === today.toDateString();
+          const isScreening = isToday && daysUntilScreening === 0;
+          return `<button class="day ${isToday || isScreening ? "screening" : ""}" type="button" ${isScreening ? 'data-page="questionnaire" aria-label="Open screening day checklist"' : ""}><strong>${label}</strong><span>${dateNumber}</span></button>`;
+        }).join("");
+      }
+
+      function renderHomeReminder() {
+        if (bookedAppointment) {
+          homeReminderTitle.textContent = "Teledoctor Appointment";
+          homeReminderCopy.textContent = `Next appointment: ${bookedAppointment.day}, ${bookedAppointment.displayDate} at ${bookedAppointment.time}.`;
+          selfExamCard.removeAttribute("data-page");
+          return;
+        }
+
+        const { daysUntilScreening } = getCycleInfo();
+        homeReminderTitle.textContent = "Monthly Self-Exam";
+        if (daysUntilScreening === 0) {
+          homeReminderCopy.textContent = "Your checklist is ready. Tap this card to open it.";
+          selfExamCard.dataset.page = "questionnaire";
+        } else {
+          homeReminderCopy.textContent = `Your checklist will appear here on screening day. Next check in ${daysUntilScreening} days.`;
+          selfExamCard.removeAttribute("data-page");
+        }
+      }
+
+      function rankedFallbackArticles(status) {
+        const dayIndex = daysBetween(new Date(today.getFullYear(), 0, 1), today);
+        return approvedArticles
+          .map((article, index) => ({
+            ...article,
+            score: article.tags.filter((tag) => status.tags.includes(tag)).length * 10 + ((dayIndex + index) % 5),
+          }))
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 2);
+      }
+
+      function renderArticleCards(articles) {
+        dailyArticles.innerHTML = articles
+          .map(
+            (article) => `
+              <a class="mini-card article" href="${article.url}" target="_blank" rel="noopener">
+                <span class="eyebrow" style="color: rgba(255,255,255,.86)">${article.source}</span>
+                <h3>${article.title}</h3>
+              </a>
+            `,
+          )
+          .join("");
+      }
+
+      async function aiRankedArticles(status) {
+        const response = await fetch("/api/insights", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            concernStatus: status.title,
+            tags: status.tags,
+            approvedArticles,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Insight service unavailable");
+        const data = await response.json();
+        const ids = Array.isArray(data.articleIds) ? data.articleIds : [];
+        const selected = ids.map((id) => approvedArticles.find((article) => article.id === id)).filter(Boolean);
+        return {
+          articles: selected.length ? selected.slice(0, 2) : rankedFallbackArticles(status),
+        };
+      }
+
+      async function renderDailyInsights() {
+        const status = currentConcernStatus();
+        const fallback = rankedFallbackArticles(status);
+
+        concernStatusTitle.textContent = status.title;
+        renderArticleCards(fallback);
+
+        try {
+          const result = await aiRankedArticles(status);
+          renderArticleCards(result.articles);
+        } catch (error) {
+          renderArticleCards(fallback);
+        }
+      }
+
+      function renderHome() {
+        renderCycleHome();
+        renderHomeReminder();
+        renderDailyInsights();
+      }
+
+      issueTabs.innerHTML = concernGroups
+        .map(
+          (group) => `
+            <div class="issue-group">
+              <div class="issue-group-title">${group.shortLabel}</div>
+              ${issueOptions
+                .filter((issue) => issue.groupId === group.id)
+                .map(
+                  (issue) => `
+                    <button class="issue-option" type="button" data-issue="${issue.id}" aria-label="Show ${issue.question}">
+                      <span>
+                        <strong>${toTitleCase(issue.question)}</strong>
+                        <small>${issue.groupLabel}</small>
+                      </span>
+                    </button>
+                  `,
+                )
+                .join("")}
+            </div>
+          `,
+        )
+        .join("");
+
+      baselineOptions.innerHTML = issueOptions
+        .map(
+          (issue) => `
+            <label class="check-option">
+              <input type="checkbox" value="${issue.question}" ${["Pain in the breast area", "Poor mood"].includes(issue.question) ? "checked" : ""} />
+              <span>${toTitleCase(issue.question)}</span>
+            </label>
+          `,
+        )
+        .join("");
+
+      function clearedBaselineIssues() {
+        return [...document.querySelectorAll("#baseline-options input:checked")].map((input) => input.value);
+      }
+
+      function renderAppointments() {
+        const week = appointmentWeeks[activeAppointmentWeek];
+        appointmentWeek.textContent = week.label;
+        appointmentRange.textContent = week.range;
+        appointmentSlots.innerHTML = week.slots
+          .map(
+            (slot) => `
+              <button class="slot" type="button" data-appointment-date="${slot.date}" data-appointment-display-date="${slot.displayDate}" data-appointment-day="${slot.day}" data-appointment-time="${slot.time}">
+                <span class="slot-date">${slot.date}</span>
+                <span><strong>${slot.day}</strong><br /><span class="subtle">${slot.displayDate}, ${slot.time}</span></span>
+                <span class="subtle">Book</span>
+              </button>
+            `,
+          )
+          .join("");
+      }
+
+      function renderBookedAppointment() {
+        if (!bookedAppointment) {
+          nextAppointment.classList.remove("show");
+          appointmentAlert.classList.remove("show");
+          renderHomeReminder();
+          return;
+        }
+
+        nextAppointment.classList.add("show");
+        nextAppointmentCopy.textContent = `${bookedAppointment.day}, ${bookedAppointment.displayDate} at ${bookedAppointment.time}`;
+        appointmentAlert.classList.toggle("show", bookedAppointment.day === "Today");
+        appointmentAlert.textContent = bookedAppointment.day === "Today" ? "Appointment Notification: Your teledoctor consultation is now." : "";
+        renderHomeReminder();
+      }
+
+      function renderIssue(id) {
+        const issue = issueOptions.find((item) => item.id === id);
+        const monthlyCounts = monthlyLogs.map((month) => countIssueInMonth(month, issue));
+        const total = monthlyCounts.reduce((sum, count) => sum + count, 0);
+        const max = Math.max(...monthlyCounts, 1);
+        const latestMonth = monthlyLogs[monthlyLogs.length - 1];
+        const latestCount = countIssueInMonth(latestMonth, issue);
+        const allTimeAverage = total / monthlyLogs.length;
+        const roundedAverage = Math.round(allTimeAverage * 10) / 10;
+        const wasPreviouslyRare = monthlyCounts.slice(0, -1).every((count) => count === 0);
+        const isPersistent = monthlyCounts.filter((count) => count > 0).length >= 3;
+        const isClearedBaseline = clearedBaselineIssues().includes(issue.question);
+        const loggedMonths = monthlyLogs
+          .map((month) => ({ month: month.month, count: countIssueInMonth(month, issue) }))
+          .filter((month) => month.count > 0);
+
+        document.querySelectorAll("[data-issue]").forEach((button) => button.classList.toggle("active", button.dataset.issue === id));
+        comparisonTitle.textContent = `${issue.groupLabel}: Recent Cycle Vs Trend`;
+        comparisonSummary.textContent = `Most recent check compared with this issue's history.`;
+        comparisonCurrent.textContent = latestCount;
+        comparisonAverage.textContent = roundedAverage;
+        if (latestCount && wasPreviouslyRare) {
+          comparisonNote.textContent = "New for you. Chat with a clinician.";
+        } else if (latestCount && isPersistent && !isClearedBaseline) {
+          comparisonNote.textContent = "Persistent pattern. Book a check.";
+        } else if (latestCount && isClearedBaseline) {
+          comparisonNote.textContent = "Known baseline. Keep tracking.";
+        } else if (latestCount) {
+          comparisonNote.textContent = "Logged this cycle. Monitor or chat.";
+        } else {
+          comparisonNote.textContent = "Not logged this cycle.";
+        }
+        currentCycleList.innerHTML = latestCount
+          ? `
+              <div class="issue-chip">
+                <span class="dot" style="width:22px;height:22px;font-size:10px"></span>
+                <span>${issue.question}</span>
+                <small>${latestMonth.month}</small>
+              </div>
+            `
+          : `<p class="subtle">This issue was not logged in the most recent cycle.</p>`;
+
+        trendTitle.textContent = `${toTitleCase(issue.question)}: All-Time`;
+        trendSummary.textContent = `Month-by-month history.`;
+
+        monthList.innerHTML = monthlyLogs
+          .map((month, index) => {
+            const count = monthlyCounts[index];
+            const width = count ? Math.max((count / max) * 100, 14) : 0;
+            return `
+              <div class="month-row">
+                <span class="month-name">${month.month}</span>
+                <span class="month-track"><i class="month-fill" style="width: ${width}%"></i></span>
+                <span class="month-count">${count}</span>
+              </div>
+            `;
+          })
+          .join("");
+
+        issueList.innerHTML = loggedMonths.length
+          ? loggedMonths
+              .map(
+                (item) => `
+                  <div class="issue-chip">
+                    <span class="dot" style="width:22px;height:22px;font-size:10px"></span>
+                    <span>${issue.question}</span>
+                    <small>${item.month}</small>
+                  </div>
+                `,
+              )
+              .join("")
+          : `<p class="subtle">This issue has not been logged in the displayed history.</p>`;
+      }
+
+      const qList = document.querySelector("#questions");
+      qList.innerHTML = questions
+        .map(
+          (question, index) => `
+            <div class="card question-card">
+              <div class="screening-line">
+                <div class="dot">${index + 1}</div>
+                <h3>${question}</h3>
+              </div>
+              <div class="choice-row">
+                <button class="choice" type="button" aria-label="${question}: yes">Y</button>
+                <button class="choice" type="button" aria-label="${question}: no">N</button>
+                <button class="choice" type="button" aria-label="${question}: unsure">Unsure</button>
+              </div>
+            </div>
+          `,
+        )
+        .join("");
+
+      function setPage(id) {
+        document.querySelectorAll(".screen").forEach((screen) => screen.classList.toggle("active", screen.id === id));
+        document.querySelectorAll(".nav").forEach((button) => button.classList.toggle("active", button.dataset.page === id));
+        document.querySelector(`#${id}`)?.scrollTo({ top: 0 });
+        if (id === "home") renderHome();
+      }
+
+      document.querySelectorAll("[data-page]").forEach((button) => {
+        button.addEventListener("click", () => setPage(button.dataset.page));
+      });
+
+      cycleWeek.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-page]");
+        if (button) setPage(button.dataset.page);
+      });
+
+      document.querySelectorAll("[data-week-step]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const step = Number(button.dataset.weekStep);
+          activeAppointmentWeek = (activeAppointmentWeek + step + appointmentWeeks.length) % appointmentWeeks.length;
+          renderAppointments();
+        });
+      });
+
+      appointmentSlots.addEventListener("click", (event) => {
+        const slot = event.target.closest("[data-appointment-date]");
+        if (!slot) return;
+
+        pendingAppointment = {
+          date: slot.dataset.appointmentDate,
+          displayDate: slot.dataset.appointmentDisplayDate,
+          day: slot.dataset.appointmentDay,
+          time: slot.dataset.appointmentTime,
+        };
+        appointmentConfirmCopy.textContent = `Book a teledoctor consultation for ${pendingAppointment.day}, ${pendingAppointment.displayDate} at ${pendingAppointment.time}?`;
+        appointmentConfirm.classList.add("open");
+      });
+
+      confirmAppointment.addEventListener("click", () => {
+        bookedAppointment = pendingAppointment;
+        pendingAppointment = null;
+        appointmentConfirm.classList.remove("open");
+        renderBookedAppointment();
+      });
+
+      document.querySelectorAll("[data-issue]").forEach((button) => {
+        button.addEventListener("click", () => renderIssue(button.dataset.issue));
+      });
+
+      document.querySelectorAll("[data-open]").forEach((button) => {
+        button.addEventListener("click", () => document.querySelector(`#${button.dataset.open}`).classList.add("open"));
+      });
+
+      document.querySelectorAll("[data-close]").forEach((button) => {
+        button.addEventListener("click", () => {
+          button.closest(".modal").classList.remove("open");
+          const activeIssue = document.querySelector("[data-issue].active");
+          if (activeIssue) renderIssue(activeIssue.dataset.issue);
+        });
+      });
+
+      document.querySelectorAll(".choice").forEach((button) => {
+        button.addEventListener("click", () => {
+          const row = button.closest(".question-card");
+          row.querySelectorAll(".choice").forEach((choice) => choice.classList.remove("active"));
+          button.classList.add("active");
+        });
+      });
+
+      renderIssue(issueOptions[2].id);
+      renderAppointments();
+      renderBookedAppointment();
+      renderHome();
+    </script>
+  </body>
+</html>
