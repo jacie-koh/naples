@@ -1,11 +1,25 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { existsSync, readFileSync } from "node:fs";
 import { extname, join, normalize } from "node:path";
+
+function loadEnvFile() {
+  const envPath = join(new URL(".", import.meta.url).pathname, ".env");
+  if (!existsSync(envPath)) return;
+
+  for (const line of readFileSync(envPath, "utf8").split(/\r?\n/)) {
+    const match = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+    if (!match || process.env[match[1]]) continue;
+    process.env[match[1]] = match[2].replace(/^["']|["']$/g, "");
+  }
+}
+
+loadEnvFile();
 
 const PORT = Number(process.env.PORT || 4173);
 const ROOT = new URL(".", import.meta.url).pathname;
 const GOOGLE_AI_API_KEY = process.env.GOOGLE_AI_API_KEY;
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
